@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowUpRight, Github, Linkedin } from "lucide-react";
+import SiteViewCounter from "./site-view-counter";
 
 export function Footer() {
   const quickLinks = [
@@ -21,9 +22,7 @@ export function Footer() {
       icon: Github,
     },
     {
-      href:
-        process.env.NEXT_PUBLIC_LINKEDIN_URL ||
-        "https://www.linkedin.com/in/ankur-singh/",
+      href: "https://www.linkedin.com/in/ankurrr27/",
       label: "LinkedIn",
       icon: Linkedin,
     },
@@ -89,7 +88,10 @@ export function Footer() {
         </div>
 
         <div className="mt-10 flex flex-col gap-4 border-t border-black/10 pt-6 text-sm text-zinc-500 dark:border-white/10 dark:text-zinc-500 md:flex-row md:items-center md:justify-between">
-          <p>&copy; {new Date().getFullYear()} Ankur Singh. All rights reserved.</p>
+          <div className="flex flex-col gap-3 md:flex-row md:items-center">
+            <p>&copy; {new Date().getFullYear()} Ankur Singh. All rights reserved.</p>
+            <SiteViewCounter />
+          </div>
           <div className="flex flex-wrap gap-5">
             {quickLinks.map((link) => (
               <Link
