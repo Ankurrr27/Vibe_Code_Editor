@@ -36,6 +36,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar"
 import Image from "next/image"
+import UserButton from "@/modules/auth/components/user-button"
 
 // Define the interface for a single playground item, icon is now a string
 interface PlaygroundData {
@@ -160,7 +161,7 @@ export function DashboardSidebar({ initialPlaygroundData }: { initialPlaygroundD
               )}
               <SidebarMenuItem>
                 <SidebarMenuButton asChild tooltip="View all">
-                  <Link href="/playgrounds">
+                  <Link href="/coming-soon?feature=playgrounds">
                     <span className="text-sm text-muted-foreground">View all playgrounds</span>
                   </Link>
                 </SidebarMenuButton>
@@ -173,11 +174,22 @@ export function DashboardSidebar({ initialPlaygroundData }: { initialPlaygroundD
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild tooltip="Settings">
-              <Link href="/settings">
+              <Link href="/coming-soon?feature=settings">
                 <Settings className="h-4 w-4" />
                 <span>Settings</span>
               </Link>
             </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <div className="flex items-center justify-between rounded-lg border border-white/10 bg-white/5 px-3 py-2">
+              <div className="min-w-0">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                  Account
+                </p>
+                <p className="truncate text-sm font-medium">Profile & Logout</p>
+              </div>
+              <UserButton />
+            </div>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
