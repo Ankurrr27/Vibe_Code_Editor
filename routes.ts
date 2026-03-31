@@ -5,7 +5,8 @@
  */
 
 export const publicRoutes: string[] = [
-   
+   "/",
+   "/coming-soon",
 ]
 
 /**
@@ -15,7 +16,7 @@ export const publicRoutes: string[] = [
  */
 
 export const protectedRoutes: string[] = [
-    "/",
+    "/dashboard",
     
 ]
 
@@ -39,4 +40,4 @@ export const authRoutes: string[] = [
 export const apiAuthPrefix: string = "/api/auth"
 
 export const DEFAULT_LOGIN_REDIRECT =
-  process.env.NEXT_PUBLIC_APP_URL || "/";
+  "/dashboard";

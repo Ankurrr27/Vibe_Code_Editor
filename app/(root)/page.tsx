@@ -22,7 +22,6 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 export const dynamic = "force-dynamic";
 
@@ -151,10 +150,8 @@ const floatingLanguages = [
 
 export default async function Home() {
   const session = await auth();
-
-  if (!session?.user) {
-    redirect("/auth/sign-in");
-  }
+  const ctaHref = session?.user ? "/dashboard" : "/auth/sign-in";
+  const ctaLabel = session?.user ? "Open Dashboard" : "Sign In to Start";
 
   return (
     <div className="relative z-20 flex min-h-screen flex-col items-center justify-start overflow-hidden px-6 py-10">
@@ -191,9 +188,9 @@ export default async function Home() {
         It is designed to help you write, debug, and optimize your code
         efficiently.
       </p>
-      <Link href={"/dashboard"}>
+      <Link href={ctaHref}>
         <Button variant={"brand"} className="mb-4" size={"lg"}>
-          Get Started
+          {ctaLabel}
           <ArrowUpRight className="w-3.5 h-3.5" />
         </Button>
       </Link>
