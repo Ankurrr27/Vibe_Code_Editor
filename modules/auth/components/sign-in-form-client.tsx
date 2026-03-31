@@ -17,16 +17,16 @@ async function handleGithubSignIn() {
 
 const SignInFormClient = () => {
   return (
-    <Card className="w-full max-w-xl overflow-hidden rounded-3xl border border-white/10 bg-black/55 shadow-[0_30px_90px_rgba(0,0,0,0.35)] backdrop-blur-xl">
-      <CardContent className="grid gap-8 p-8 md:p-10">
-        <div className="space-y-4">
+    <Card className="w-full max-w-lg overflow-hidden rounded-[1.75rem] border border-white/10 bg-black/55 shadow-[0_30px_90px_rgba(0,0,0,0.35)] backdrop-blur-xl">
+      <CardContent className="grid gap-6 p-6 md:gap-7 md:p-8 lg:p-9">
+        <div className="space-y-3">
           <div className="inline-flex items-center gap-2 rounded-full border border-[#e93f3f]/30 bg-[#e93f3f]/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-[#ff9d9d]">
             <Sparkles className="h-3.5 w-3.5" />
             VibeCode Access
           </div>
 
           <div className="space-y-3">
-            <h2 className="text-4xl font-black leading-tight text-white md:text-5xl">
+            <h2 className="text-3xl font-black leading-tight text-white md:text-4xl xl:text-[2.8rem]">
               Sign in and start building with intelligence
             </h2>
             <p className="max-w-lg text-sm leading-6 text-zinc-300 md:text-base">
@@ -40,7 +40,7 @@ const SignInFormClient = () => {
           <form action={handleGoogleSignIn}>
             <Button
               type="submit"
-              className="group h-14 w-full justify-between rounded-2xl border border-white/10 bg-white text-black hover:bg-white/90"
+              className="group h-12 w-full justify-between rounded-2xl border border-white/10 bg-white text-black hover:bg-white/90 md:h-13"
             >
               <span className="flex items-center gap-3 text-sm font-semibold">
                 <Chrome className="h-5 w-5" />
@@ -54,7 +54,7 @@ const SignInFormClient = () => {
             <Button
               type="submit"
               variant="outline"
-              className="group h-14 w-full justify-between rounded-2xl border-white/15 bg-white/5 text-white hover:border-[#e93f3f]/60 hover:bg-[#e93f3f]/10"
+              className="group h-12 w-full justify-between rounded-2xl border-white/15 bg-white/5 text-white hover:border-[#e93f3f]/60 hover:bg-[#e93f3f]/10 md:h-13"
             >
               <span className="flex items-center gap-3 text-sm font-semibold">
                 <Github className="h-5 w-5" />
