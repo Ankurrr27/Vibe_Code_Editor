@@ -123,3 +123,36 @@
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes floatingBadge {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  25% {
+    transform: translate3d(8px, -10px, 0);
+  }
+  50% {
+    transform: translate3d(-6px, -18px, 0);
+  }
+  75% {
+    transform: translate3d(-10px, 6px, 0);
+  }
+}
+
+.floating-badge {
+  opacity: 0.32;
+  animation: floatingBadge 11s ease-in-out infinite;
+}
+
+.floating-badge-fast {
+  animation-duration: 8.5s;
+}
+
+.floating-badge-slow {
+  animation-duration: 13s;
+}
+
+.floating-badge-delayed {
+  animation-delay: -3s;
+}
