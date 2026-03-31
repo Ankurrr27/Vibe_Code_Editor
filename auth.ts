@@ -7,6 +7,8 @@ import { getUserById } from "./modules/auth/actions";
 
 const normalizeNullableString = (value: unknown) =>
   typeof value === "string" ? value : undefined;
+const authSecret =
+  process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET;
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   callbacks: {
@@ -108,7 +110,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     },
   },
 
-  secret: process.env.AUTH_SECRET,
+  secret: authSecret,
   adapter: PrismaAdapter(db),
   session: { strategy: "jwt" },
   trustHost: true,
