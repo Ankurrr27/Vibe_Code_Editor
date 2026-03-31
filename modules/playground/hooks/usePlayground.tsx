@@ -4,9 +4,9 @@ import type { TemplateFolder } from "../lib/path-to-json";
 import { getPlaygroundById, saveUpdatedCode } from "../actions";
 
 interface PlaygroundData {
-  id: string;
+  id?: string;
   title?: string;
-  [key: string]: any;
+  templateFiles?: Array<{ content: unknown }>;
 }
 
 interface UsePlaygroundReturn {
