@@ -1,13 +1,13 @@
 "use client";
 
-import { useRef, useEffect, useCallback } from "react";
+import { useRef, useEffect, useCallback, type ComponentProps } from "react";
 import Editor, { type Monaco } from "@monaco-editor/react";
 import {
   configureMonaco,
   defaultEditorOptions,
   getEditorLanguage,
 } from "@/modules/playground/lib/editor-config";
-import type { TemplateFile } from "@/modules/playground/libs/path-to-json";
+import type { TemplateFile } from "@/modules/playground/lib/path-to-json";
 
 interface PlaygroundEditorProps {
   activeFile: TemplateFile | undefined;
@@ -15,47 +15,54 @@ interface PlaygroundEditorProps {
   onContentChange: (value: string) => void;
 }
 
+type EditorOptions = ComponentProps<typeof Editor>["options"];
+type EditorInstance = Parameters<
+  NonNullable<ComponentProps<typeof Editor>["onMount"]>
+>[0];
+type UpdateOptions = Parameters<EditorInstance["updateOptions"]>[0];
+
 const PlaygroundEditor = ({
   activeFile,
   content,
   onContentChange,
 }: PlaygroundEditorProps) => {
-  const editorRef = useRef<any>(null);
+  const editorRef = useRef<EditorInstance | null>(null);
   const monacoRef = useRef<Monaco | null>(null);
-  const handleEditorDidMount = (editor: any, monaco: Monaco) => {
-    editorRef.current = editor;
-    monacoRef.current = monaco;
-    console.log("Editor instance mounted:", !!editorRef.current);
 
-    editor.updateOptions({
-      ...defaultEditorOptions,
-    });
-
-    configureMonaco(monaco);
-
-    updateEditorLanguage();
-  };
-
-  const updateEditorLanguage = () => {
+  const updateEditorLanguage = useCallback(() => {
     if (!activeFile || !monacoRef.current || !editorRef.current) return;
+
     const model = editorRef.current.getModel();
     if (!model) return;
+
     const language = getEditorLanguage(activeFile.fileExtension || "");
     try {
       monacoRef.current.editor.setModelLanguage(model, language);
     } catch (error) {
-      console.warn("Failed to set Editor language: ", error);
+      console.warn("Failed to set Editor language:", error);
     }
+  }, [activeFile]);
+
+  const handleEditorDidMount = (editor: EditorInstance, monaco: Monaco) => {
+    editorRef.current = editor;
+    monacoRef.current = monaco;
+
+    editor.updateOptions(defaultEditorOptions as unknown as UpdateOptions);
+
+    configureMonaco(monaco);
+    updateEditorLanguage();
   };
 
-  useEffect(()=>{
-    updateEditorLanguage()
-  },[])
+  useEffect(() => {
+    updateEditorLanguage();
+  }, [updateEditorLanguage]);
+
+  const editorOptions = defaultEditorOptions as unknown as EditorOptions;
 
   return (
-    <div className="h-full relative">
+    <div className="relative h-full">
       <Editor
-        height={"100%"}
+        height="100%"
         value={content}
         onChange={(value) => onContentChange(value || "")}
         onMount={handleEditorDidMount}
@@ -64,8 +71,7 @@ const PlaygroundEditor = ({
             ? getEditorLanguage(activeFile.fileExtension || "")
             : "plaintext"
         }
-        //@ts-ignore
-        options={defaultEditorOptions}
+        options={editorOptions}
       />
     </div>
   );

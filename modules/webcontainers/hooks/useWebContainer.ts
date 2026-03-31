@@ -2,11 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { WebContainer } from "@webcontainer/api";
-import { TemplateFolder } from "@/modules/playground/lib/path-to-json";
-import { registry } from "zod";
-
 interface UseWebContainerProps {
-  templateData: TemplateFolder;
+  templateData: unknown;
 }
 
 interface UseWebContainerReturn {
@@ -19,7 +16,7 @@ interface UseWebContainerReturn {
 }
 
 export const UseWebContainer = ({
-  templateData,
+  templateData: _templateData,
 }: UseWebContainerProps): UseWebContainerReturn => {
   const [serverUrl, setServerUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -75,7 +72,7 @@ export const UseWebContainer = ({
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Failed to write file';
         console.error(`Failed to write file at ${path}:`, err);
-        throw new Error (`failed to write file ar ${path}: ${errorMessage}`);
+        throw new Error (`failed to write file at ${path}: ${errorMessage}`);
       }
     },
     [instance],

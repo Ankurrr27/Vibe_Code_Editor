@@ -3,14 +3,17 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 
 import authConfig from "./auth.config";
 import { db } from "./lib/db";
-import { getAccountByUserId, getUserById } from "./modules/auth/actions";
+import { getUserById } from "./modules/auth/actions";
+
+const normalizeNullableString = (value: unknown) =>
+  typeof value === "string" ? value : undefined;
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   callbacks: {
     /**
      * Handle user creation and account linking after a successful sign-in
      */
-    async signIn({ user, account, profile }) {
+    async signIn({ user, account }) {
       if (!user || !account) return false;
 
       // Check if the user already exists
@@ -25,26 +28,25 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
             email: user.email!,
             name: user.name,
             image: user.image,
-
-            accounts: {
-              // @ts-ignore
-              create: {
-                type: account.type,
-                provider: account.provider,
-                providerAccountId: account.providerAccountId,
-                refresh_token: account.refresh_token,
-                access_token: account.access_token,
-                expires_at: account.expires_at,
-                token_type: account.token_type,
-                scope: account.scope,
-                id_token: account.id_token,
-                session_state: account.session_state,
-              },
-            },
           },
         });
-
+ 
         if (!newUser) return false; // Return false if user creation fails
+        await db.account.create({
+          data: {
+            userId: newUser.id,
+            type: account.type,
+            provider: account.provider,
+            providerAccountId: account.providerAccountId,
+            refresh_token: account.refresh_token,
+            access_token: account.access_token,
+            expires_at: account.expires_at,
+            token_type: account.token_type,
+            scope: account.scope,
+            id_token: normalizeNullableString(account.id_token),
+            session_state: normalizeNullableString(account.session_state),
+          },
+        });
       } else {
         // Link the account if user exists
         const existingAccount = await db.account.findUnique({
@@ -69,9 +71,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
               expires_at: account.expires_at,
               token_type: account.token_type,
               scope: account.scope,
-              id_token: account.id_token,
-              // @ts-ignore
-              sessionState: account.session_state,
+              id_token: normalizeNullableString(account.id_token),
+              session_state: normalizeNullableString(account.session_state),
             },
           });
         }
@@ -80,14 +81,12 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       return true;
     },
 
-    async jwt({ token, user, account }) {
+    async jwt({ token }) {
       if (!token.sub) return token;
       const existingUser = await getUserById(token.sub);
-
+ 
       if (!existingUser) return token;
-
-      const exisitingAccount = await getAccountByUserId(existingUser.id);
-
+ 
       token.name = existingUser.name;
       token.email = existingUser.email;
       token.role = existingUser.role;

@@ -17,13 +17,15 @@ import { useCurrentUser } from "../hooks/use-current-user";
 const UserButton = () => {
 
   const user = useCurrentUser()
+  const avatarAlt = user?.name ?? "User avatar";
+  const avatarSrc = user?.image ?? undefined;
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <div className={cn("relative rounded-full")}>
           <Avatar>
-            <AvatarImage src={user?.image!} alt={user?.name!} />
+            <AvatarImage src={avatarSrc} alt={avatarAlt} />
             <AvatarFallback className="bg-red-500">
               <User className="text-white" />
             </AvatarFallback>

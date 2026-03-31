@@ -19,7 +19,7 @@ export default async function DashboardLayout({
         ANGULAR: "Terminal"
     }
 
-    const formattedPlaygroundData = playgroundData?.map((item)=>({
+    const formattedPlaygroundData = (playgroundData ?? []).map((item)=>({
         id:item.id,
         name:item.title,
 
@@ -31,7 +31,6 @@ export default async function DashboardLayout({
     <SidebarProvider>
       <div className="flex *:min-h-screen w-full -overflow-x-hidden">
         {/* Dashboard Sidebar */}
-        {/* @ts-ignore */}
         <DashboardSidebar initialPlaygroundData={formattedPlaygroundData}/>
         <main className="flex-1">{children}</main>
       </div>
