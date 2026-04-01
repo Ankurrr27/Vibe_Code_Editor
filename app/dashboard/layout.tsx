@@ -9,36 +9,33 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const session = await auth();
+  const playgroundData = await getAllPlaygroundForUser();
 
-    const session = await auth();
-    const playgroundData = await getAllPlaygroundForUser();
+  const technologyIconMap: Record<string, string> = {
+    REACT: "Zap",
+    NEXTJS: "Lightbulb",
+    EXPRESS: "Database",
+    VUE: "Compass",
+    HONO: "Flame",
+    ANGULAR: "Terminal",
+  };
 
-    const technologyIconMap: Record<string, string> = {
-        REACT: "Zap",
-        NEXTJS: "Lightbulb",
-        EXPRESS: "Database",
-        VUE: "Compass",
-        HONO: "Flame",
-        ANGULAR: "Terminal"
-    }
-
-    const formattedPlaygroundData = (playgroundData ?? []).map((item)=>({
-        id:item.id,
-        name:item.title,
-
-        starred:item.Starmark?.[0]?.isMarked || false,
-        icon:technologyIconMap[item.template] || "Code2"
-    }));
+  const formattedPlaygroundData = (playgroundData ?? []).map((item) => ({
+    id: item.id,
+    name: item.title,
+    starred: item.Starmark?.[0]?.isMarked || false,
+    icon: technologyIconMap[item.template] || "Code2",
+  }));
 
   return (
     <SidebarProvider>
-      <div className="flex *:min-h-screen w-full -overflow-x-hidden">
-        {/* Dashboard Sidebar */}
+      <div className="flex w-full *:min-h-screen">
         <DashboardSidebar
           initialPlaygroundData={formattedPlaygroundData}
           canViewUsers={canViewUsersPage(session?.user)}
         />
-        <main className="flex-1">{children}</main>
+        <main className="min-h-screen min-w-0 flex-1">{children}</main>
       </div>
     </SidebarProvider>
   );
