@@ -1,4 +1,6 @@
+import { auth } from "@/auth";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { canViewUsersPage } from "@/lib/access";
 import { getAllPlaygroundForUser } from "@/modules/dashboard/actions";
 import { DashboardSidebar } from "@/modules/dashboard/components/dashboard-sidebar";
 
@@ -8,6 +10,7 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }) {
 
+    const session = await auth();
     const playgroundData = await getAllPlaygroundForUser();
 
     const technologyIconMap: Record<string, string> = {
@@ -15,7 +18,7 @@ export default async function DashboardLayout({
         NEXTJS: "Lightbulb",
         EXPRESS: "Database",
         VUE: "Compass",
-        HONO: "FlameIcon",
+        HONO: "Flame",
         ANGULAR: "Terminal"
     }
 
@@ -31,7 +34,10 @@ export default async function DashboardLayout({
     <SidebarProvider>
       <div className="flex *:min-h-screen w-full -overflow-x-hidden">
         {/* Dashboard Sidebar */}
-        <DashboardSidebar initialPlaygroundData={formattedPlaygroundData}/>
+        <DashboardSidebar
+          initialPlaygroundData={formattedPlaygroundData}
+          canViewUsers={canViewUsersPage(session?.user)}
+        />
         <main className="flex-1">{children}</main>
       </div>
     </SidebarProvider>

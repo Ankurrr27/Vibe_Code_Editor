@@ -1,9 +1,14 @@
+import { auth } from "@/auth";
 import Link from "next/link";
 import Image from "next/image";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { canViewUsersPage } from "@/lib/access";
 import UserButton from "../auth/components/user-button";
 
-export function Header() {
+export async function Header() {
+  const session = await auth();
+  const canViewUsers = canViewUsersPage(session?.user);
+
   return (
     <>
       <div className="sticky top-0 left-0 right-0 z-50">
@@ -53,6 +58,20 @@ export function Header() {
                     >
                       Docs
                     </Link>
+                    <Link
+                      href="/compiler"
+                      className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors"
+                    >
+                      Compiler
+                    </Link>
+                    {canViewUsers ? (
+                      <Link
+                        href="/dashboard/users"
+                        className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors"
+                      >
+                        Users
+                      </Link>
+                    ) : null}
                     {/* <Link
                                             href="/pricing"
                                             className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors"
@@ -88,6 +107,20 @@ export function Header() {
                   >
                     Docs
                   </Link>
+                  <Link
+                    href="/compiler"
+                    className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors"
+                  >
+                    Compiler
+                  </Link>
+                  {canViewUsers ? (
+                    <Link
+                      href="/dashboard/users"
+                      className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors"
+                    >
+                      Users
+                    </Link>
+                  ) : null}
                   <Link
                     href="/coming-soon?feature=api"
                     className="text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 transition-colors"

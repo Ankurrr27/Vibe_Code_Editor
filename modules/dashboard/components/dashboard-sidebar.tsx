@@ -12,15 +12,14 @@ import {
   LayoutDashboard,
   Lightbulb,
   type LucideIcon,
-  Plus,
   Settings,
   Star,
   Terminal,
+  Users,
   Zap,
   Database,
-  FlameIcon,
+  Flame,
 } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import {
   Sidebar,
   SidebarContent,
@@ -52,16 +51,22 @@ const lucideIconMap: Record<string, LucideIcon> = {
   Lightbulb: Lightbulb,
   Database: Database,
   Compass: Compass,
-  FlameIcon: FlameIcon,
+  Flame: Flame,
   Terminal: Terminal,
   Code2: Code2, // Include the default icon
   // Add any other icons you might use dynamically
 }
 
-export function DashboardSidebar({ initialPlaygroundData }: { initialPlaygroundData: PlaygroundData[] }) {
+export function DashboardSidebar({
+  initialPlaygroundData,
+  canViewUsers,
+}: {
+  initialPlaygroundData: PlaygroundData[];
+  canViewUsers: boolean;
+}) {
   const pathname = usePathname()
-  const [starredPlaygrounds, setStarredPlaygrounds] = useState(initialPlaygroundData.filter((p) => p.starred))
-  const [recentPlaygrounds, setRecentPlaygrounds] = useState(initialPlaygroundData)
+  const [starredPlaygrounds] = useState(initialPlaygroundData.filter((p) => p.starred))
+  const [recentPlaygrounds] = useState(initialPlaygroundData)
 
   return (
     <Sidebar variant="inset" collapsible="icon" className="border-1 border-r">
@@ -90,6 +95,24 @@ export function DashboardSidebar({ initialPlaygroundData }: { initialPlaygroundD
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild isActive={pathname === "/compiler"} tooltip="Compiler">
+                <Link href="/compiler">
+                  <Terminal className="h-4 w-4" />
+                  <span>Compiler</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            {canViewUsers ? (
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname === "/dashboard/users"} tooltip="Users">
+                  <Link href="/dashboard/users">
+                    <Users className="h-4 w-4" />
+                    <span>Users</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ) : null}
           
           </SidebarMenu>
         </SidebarGroup>
@@ -99,9 +122,6 @@ export function DashboardSidebar({ initialPlaygroundData }: { initialPlaygroundD
             <Star className="h-4 w-4 mr-2" />
             Starred
           </SidebarGroupLabel>
-          <SidebarGroupAction title="Add starred playground">
-            <Plus className="h-4 w-4" />
-          </SidebarGroupAction>
           <SidebarGroupContent>
             <SidebarMenu>
 
@@ -159,13 +179,6 @@ export function DashboardSidebar({ initialPlaygroundData }: { initialPlaygroundD
                   );
                 })
               )}
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild tooltip="View all">
-                  <Link href="/coming-soon?feature=playgrounds">
-                    <span className="text-sm text-muted-foreground">View all playgrounds</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
