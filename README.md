@@ -104,83 +104,13 @@ modules/
 prisma/
 ```
 
-## Local Setup
 
-Clone the repository and install dependencies:
-
-```bash
-npm install
-```
-
-Run the app locally:
-
-```bash
-npm run dev
-```
-
-Open:
-
-```text
-http://localhost:3000
-```
-
-## Environment Variables
-
-Create a `.env` file and add the required values:
-
-```env
-DATABASE_URL=your_mongodb_connection_string
-
-NEXTAUTH_URL=http://localhost:3000
-AUTH_SECRET=your_auth_secret
-
-AUTH_GITHUB_ID=your_github_oauth_client_id
-AUTH_GITHUB_SECRET=your_github_oauth_client_secret
-
-AUTH_GOOGLE_ID=your_google_oauth_client_id
-AUTH_GOOGLE_SECRET=your_google_oauth_client_secret
-
-JUDGE0_BASE_URL=https://ce.judge0.com
-```
-
-## Production Notes
-
-For deployment, make sure these are configured correctly:
-
-- `NEXTAUTH_URL` must match your deployed domain
-- Google OAuth redirect URI must include:
-  `https://your-domain/api/auth/callback/google`
-- GitHub OAuth callback URL must include:
-  `https://your-domain/api/auth/callback/github`
-- your database connection must be available in production
-
-For this project, the deployed URL is:
-
-```text
-https://vibe-code-editor-omega.vercel.app
-```
-
-## Scripts
-
-```bash
-npm run dev
-npm run build
-npm run start
-npm run lint
-```
 
 ## Why I Built This
 
 I built Vibe Code Editor to create a smoother browser-based coding experience that feels more like a real developer workspace than a simple code sandbox. The goal was to combine project templates, live coding, compilation, auth, and dashboard management into one polished product.
 
-## Future Improvements
 
-- real-time multiplayer collaboration
-- AI assistant integration with Ollama
-- snippet sharing
-- project history and restore
-- global analytics dashboard
-- better execution isolation for user code
 
 ## Author
 
