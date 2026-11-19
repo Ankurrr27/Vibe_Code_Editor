@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Chrome, Github, ShieldCheck, Sparkles, ArrowUpRight } from "lucide-react";
+import { Github, ArrowUpRight } from "lucide-react";
 import { signIn } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
@@ -17,33 +17,27 @@ async function handleGithubSignIn() {
 
 const SignInFormClient = () => {
   return (
-    <Card className="w-full max-w-lg overflow-hidden rounded-[1.75rem] border border-white/10 bg-black/55 shadow-[0_30px_90px_rgba(0,0,0,0.35)] backdrop-blur-xl">
-      <CardContent className="grid gap-6 p-6 md:gap-7 md:p-8 lg:p-9">
-        <div className="space-y-3">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#e93f3f]/30 bg-[#e93f3f]/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-[#ff9d9d]">
-            <Sparkles className="h-3.5 w-3.5" />
-            VibeCode Access
-          </div>
-
-          <div className="space-y-3">
-            <h2 className="text-3xl font-black leading-tight text-white md:text-4xl xl:text-[2.8rem]">
-              Sign in and start building with intelligence
-            </h2>
-            <p className="max-w-lg text-sm leading-6 text-zinc-300 md:text-base">
-              Continue with Google or GitHub to jump back into your playgrounds,
-              import repositories, and keep everything synced to your editor flow.
-            </p>
-          </div>
+    <Card className="w-full max-w-md rounded-2xl border border-zinc-200 bg-white shadow-lg dark:border-white/10 dark:bg-zinc-950">
+      <CardContent className="grid gap-6 p-6 md:p-8">
+        <div className="space-y-2">
+          <h2 className="text-2xl font-semibold tracking-tight text-zinc-950 dark:text-white">
+            Welcome to VibeCode
+          </h2>
+          <p className="text-sm text-zinc-600 dark:text-zinc-400">
+            Sign in or create your account.
+          </p>
         </div>
 
         <div className="grid gap-3">
           <form action={handleGoogleSignIn}>
             <Button
               type="submit"
-              className="group h-12 w-full justify-between rounded-2xl border border-white/10 bg-white text-black hover:bg-white/90 md:h-13"
+              className="group h-12 w-full justify-between rounded-xl border border-white/10 bg-white text-zinc-950 hover:bg-zinc-100 md:h-13"
             >
               <span className="flex items-center gap-3 text-sm font-semibold">
-                <Chrome className="h-5 w-5" />
+                <span aria-hidden="true" className="text-lg font-bold text-[#4285f4]">
+                  G
+                </span>
                 Continue with Google
               </span>
               <ArrowUpRight className="h-4 w-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
@@ -54,7 +48,7 @@ const SignInFormClient = () => {
             <Button
               type="submit"
               variant="outline"
-              className="group h-12 w-full justify-between rounded-2xl border-white/15 bg-white/5 text-white hover:border-[#e93f3f]/60 hover:bg-[#e93f3f]/10 md:h-13"
+              className="group h-12 w-full justify-between rounded-xl border-zinc-300 bg-white text-zinc-900 hover:bg-zinc-100 dark:border-white/15 dark:bg-white/5 dark:text-white dark:hover:border-white/30 dark:hover:bg-white/10 md:h-13"
             >
               <span className="flex items-center gap-3 text-sm font-semibold">
                 <Github className="h-5 w-5" />
@@ -64,32 +58,9 @@ const SignInFormClient = () => {
             </Button>
           </form>
         </div>
-
-        <div className="grid gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-zinc-300 md:grid-cols-2">
-          <div className="flex items-start gap-3">
-            <div className="rounded-xl bg-[#e93f3f]/15 p-2 text-[#ff8e8e]">
-              <ShieldCheck className="h-4 w-4" />
-            </div>
-            <div>
-              <p className="font-semibold text-white">Protected workspace</p>
-              <p className="text-xs text-zinc-400">
-                Your session lands back at the app root after a successful login.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-3">
-            <div className="rounded-xl bg-[#e93f3f]/15 p-2 text-[#ff8e8e]">
-              <Github className="h-4 w-4" />
-            </div>
-            <div>
-              <p className="font-semibold text-white">GitHub-ready import</p>
-              <p className="text-xs text-zinc-400">
-                Connect GitHub to pull repository folders directly into the editor.
-              </p>
-            </div>
-          </div>
-        </div>
+        <p className="text-center text-xs text-zinc-500 dark:text-zinc-400">
+          New accounts are created automatically.
+        </p>
       </CardContent>
     </Card>
   );

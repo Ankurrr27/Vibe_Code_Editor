@@ -4,6 +4,7 @@ import "./globals.css";
 import {SessionProvider} from "next-auth/react"
 import { auth } from "@/auth";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { SiteViewProvider } from "@/modules/home/site-view-counter";
 import { Toaster } from "sonner";
 
 const geistSans = Geist({
@@ -94,15 +95,12 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <div className="flex flex-col min-h-screen">
-              <Toaster/>
-              <div className="flex-1">
-                {children}
-
+          <SiteViewProvider>
+            <div className="flex min-h-screen flex-col">
+              <Toaster />
+              <div className="flex-1">{children}</div>
               </div>
-
-            </div>
-            {/* {children} */}
+          </SiteViewProvider>
           </ThemeProvider>
       </body>
     </html>
